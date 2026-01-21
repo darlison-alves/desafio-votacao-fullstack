@@ -4,7 +4,12 @@ import com.service.polls.adapters.out.persistence.entities.PollEntity;
 import com.service.polls.domain.exceptions.NotFoundException;
 import com.service.polls.domain.model.Poll;
 import com.service.polls.ports.out.IPollRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class JpaPollRepository implements IPollRepository {
@@ -25,5 +30,11 @@ public class JpaPollRepository implements IPollRepository {
     @Override
     public Poll findById(Long id) {
         return this.repo.findById(id).map(PollEntity::to).orElseThrow(() -> new NotFoundException("Pauta"));
+    }
+
+    @Override
+    public Page<PollEntity> findAll(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return this.repo.findAll(pageable);
     }
 }
