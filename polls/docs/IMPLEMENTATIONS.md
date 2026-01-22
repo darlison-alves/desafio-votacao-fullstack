@@ -17,3 +17,15 @@ Features:
    - Criação de pauta
    - Lista de pautas
    - Realizar Votação
+
+
+## Deploy
+
+API na Heroku, realizado deploy via CLI
+
+```shell
+  heroku stack:set container -a polls-java-api
+  heroku container:login
+  heroku container:push web -a polls-java-api
+  heroku container:release web -a polls-java-api
+```
