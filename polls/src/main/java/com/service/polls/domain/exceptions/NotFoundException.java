@@ -1,8 +1,10 @@
 package com.service.polls.domain.exceptions;
 
-public class NotFoundException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+
+public class NotFoundException extends BusinessException {
 
     public NotFoundException(String value) {
-        super(String.format("Não encontrado: %s", value));
+        super(HttpStatus.NOT_FOUND, String.format("Não encontrado: %s", value));
     }
 }
