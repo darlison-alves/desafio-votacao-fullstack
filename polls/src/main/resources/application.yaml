@@ -3,9 +3,9 @@ spring:
     name: polls
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-    password: root
+    url: jdbc:postgresql://ep-morning-math-ac0hillw-pooler.sa-east-1.aws.neon.tech:5432/neondb
+    username: neondb_owner
+    password: npg_TWgMv5SJsYa0
     driver-class-name: org.postgresql.Driver
 
   flyway:
@@ -17,3 +17,13 @@ spring:
     open-in-view: false
     hibernate:
       ddl-auto: update #
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      timeout: 2000
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0

@@ -27,7 +27,7 @@ public class Poll {
                 .build();
     }
 
-    public boolean idOpen(Instant now) {
+    public boolean isOpen(Instant now) {
         return !now.isBefore(startsAt) && now.isBefore(endsAt);
     }
 }
