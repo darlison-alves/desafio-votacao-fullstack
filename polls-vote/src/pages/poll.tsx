@@ -7,7 +7,7 @@ function Poll() {
     const [success, setSuccess] = useState(false)
     const [loading, setLoading] = useState(false)
 
-    const [payload, setPayload] = useState({ title: '', durationMinutes: 0 })
+    const [payload, setPayload] = useState({ title: '', durationMinutes: 1 })
 
     const navigate = useNavigate()
 
@@ -15,23 +15,19 @@ function Poll() {
         navigate(path, { replace: true })
     }
 
-
-
-
     function create() {
 
         setLoading(true)
 
         PollService.create({
-            "title": "Teste",
-            "durationMinutes": 2
+            "title": payload.title,
+            "durationMinutes": payload.durationMinutes
+        }).then(() => {
+            setSuccess(true)
         })
-            .then(() => {
-                setSuccess(true)
-            })
-            .finally(() => {
-                setLoading(false)
-            })
+        .finally(() => {
+            setLoading(false)
+        })
     }
 
     if (success) {
@@ -49,12 +45,13 @@ function Poll() {
         <div className="container-form-poll">
             <div className="form-control">
                 <label>Titulo</label>
-                <input onChange={(evt) => setPayload((p) => ({ ...p, title: evt.target.value }))} />
+                <input value={payload.title} onChange={(evt) => setPayload((p) => ({ ...p, title: evt.target.value }))} />
             </div>
 
             <div className="form-control">
                 <label>Tempo de duração da votação (em minutos)</label>
                 <input
+                    value={payload.durationMinutes}
                     type="number"
                     defaultValue={60}
                     onChange={(evt) => setPayload((p) => ({ ...p, durationMinutes: Number(evt.target.value) }))}

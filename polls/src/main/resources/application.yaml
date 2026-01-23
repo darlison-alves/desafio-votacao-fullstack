@@ -19,9 +19,8 @@ spring:
       ddl-auto: update #
   data:
     redis:
-      host: localhost
-      port: 6379
-      timeout: 2000
+      url: redis://default:wrcjPmp8k8Dy6UluSwOluGTbsvHjVGrr@redis-18022.c83.us-east-1-2.ec2.cloud.redislabs.com:18022
+      timeout: 2s
       lettuce:
         pool:
           max-active: 8

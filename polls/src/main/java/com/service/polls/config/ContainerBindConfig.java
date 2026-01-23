@@ -1,9 +1,11 @@
 package com.service.polls.config;
 
 import com.service.polls.application.usecases.CreatePollUseCase;
+import com.service.polls.application.usecases.GetPollUseCase;
 import com.service.polls.application.usecases.ListPollUseCase;
 import com.service.polls.application.usecases.VoteUseCase;
 import com.service.polls.ports.in.ICreatePollUseCase;
+import com.service.polls.ports.in.IGetPollsUseCase;
 import com.service.polls.ports.in.IListPollsUseCase;
 import com.service.polls.ports.in.IVoteUseCase;
 import com.service.polls.ports.out.IPollRepository;
@@ -27,5 +29,10 @@ public class ContainerBindConfig {
     @Bean
     IVoteUseCase voteUseCase(IPollRepository pollRepository, IVoteCacheProvider cacheProvider) {
         return new VoteUseCase(pollRepository, cacheProvider);
+    }
+
+    @Bean
+    IGetPollsUseCase getPollsUseCase(IPollRepository pollRepository) {
+        return new GetPollUseCase(pollRepository);
     }
 }

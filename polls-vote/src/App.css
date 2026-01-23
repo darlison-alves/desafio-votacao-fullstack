@@ -66,3 +66,34 @@
   flex-direction: column;
   gap: 20px;
 }
+
+.poll-list {
+    display: flex;
+    gap: 1rem;
+}
+
+.poll-list-item {
+    border: #888888 solid 1px;
+    border-radius: 3px;
+    width: 100px;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.container-vote {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.vote-btn {
+    display: flex;
+    justify-content: space-around;
+}
+
+.header-actions {
+    display: flex;
+    justify-content: space-between;
+}
