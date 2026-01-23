@@ -12,6 +12,7 @@ import com.service.polls.ports.out.IPollRepository;
 import com.service.polls.ports.out.IVoteCacheProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
 public class ContainerBindConfig {
@@ -34,5 +35,10 @@ public class ContainerBindConfig {
     @Bean
     IGetPollsUseCase getPollsUseCase(IPollRepository pollRepository) {
         return new GetPollUseCase(pollRepository);
+    }
+
+    @Bean
+    public WebClient.Builder webClientBuilder() {
+        return WebClient.builder();
     }
 }

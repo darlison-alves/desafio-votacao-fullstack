@@ -1,6 +1,8 @@
 package com.service.polls.adapters.in.web;
 
+import com.service.polls.adapters.out.ExternalDocumentProvider;
 import com.service.polls.adapters.out.persistence.entities.PollEntity;
+import com.service.polls.application.dto.DocumentValidatedDTO;
 import com.service.polls.application.dto.PollDTO;
 import com.service.polls.application.dto.VoteDTO;
 import com.service.polls.application.dto.VotedDTO;
@@ -27,11 +29,14 @@ public class PollController {
     private final IVoteUseCase voteUseCase;
     private final IGetPollsUseCase getPollsUseCase;
 
-    public PollController(ICreatePollUseCase createPollUseCase, IListPollsUseCase listPollsUseCase, IVoteUseCase voteUseCase, IGetPollsUseCase getPollsUseCase) {
+    private final ExternalDocumentProvider externalDocumentProvider;
+
+    public PollController(ICreatePollUseCase createPollUseCase, IListPollsUseCase listPollsUseCase, IVoteUseCase voteUseCase, IGetPollsUseCase getPollsUseCase, ExternalDocumentProvider externalDocumentProvider) {
         this.createPollUseCase = createPollUseCase;
         this.listPollsUseCase = listPollsUseCase;
         this.voteUseCase = voteUseCase;
         this.getPollsUseCase = getPollsUseCase;
+        this.externalDocumentProvider = externalDocumentProvider;
     }
 
     @PostMapping
@@ -56,5 +61,14 @@ public class PollController {
     public ResponseEntity<VotedDTO> vote(@RequestBody @Valid VoteDTO voteDTO) {
         voteUseCase.execute(voteDTO);
         return ResponseEntity.ok(VotedDTO.builder().message("voto realizado com sucesso!").build());
+    }
+
+    @GetMapping("/documents/{document}")
+    public ResponseEntity<DocumentValidatedDTO> check(@PathVariable("document") String document) {
+        boolean isValid = externalDocumentProvider.validateCPF(document);
+        if(!isValid) {
+            return ResponseEntity.status(404).body(DocumentValidatedDTO.builder().status("UNABLE_TO_VOTE").build());
+        }
+        return ResponseEntity.ok(DocumentValidatedDTO.builder().status("ABLE_TO_VOTE").build());
     }
 }

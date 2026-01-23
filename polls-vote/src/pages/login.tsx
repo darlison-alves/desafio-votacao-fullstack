@@ -7,6 +7,7 @@ function Login() {
     const [loading, setLoading] = useState(false)
 
     const [document, setDocument] = useState('')
+    const [error, setError] = useState('')
 
     const navigate = useNavigate()
 
@@ -14,13 +15,20 @@ function Login() {
         navigate(path, { replace: true })
     }
 
-    function create() {
-
+    async function login() {
         setLoading(true)
+        setError('')
+        try {
+            await PollService.validateDocument(document);
+            localStorage.setItem('document', document)
+            navigate('/')
+        } catch (error) {
+            setError('documento invalido')
+        } finally {
+            setLoading(false)
+        }
 
-        localStorage.setItem('document', document)
 
-        navigate('/')
         // PollService.create({
         //     "title": payload.title,
         //     "durationMinutes": payload.durationMinutes
@@ -34,11 +42,12 @@ function Login() {
 
     return (
         <div className="container-form-poll">
+            {error && <p>{error}</p>}
             <div className="form-control">
                 <label>CPF:</label>
                 <input onChange={(evt) => setDocument(evt.target.value)} />
             </div>
-            <button disabled={loading} onClick={() => create()}>
+            <button disabled={loading} onClick={() => login()}>
                 Entrar
             </button>
         </div>

@@ -15,5 +15,9 @@ export const PollService = {
 
     vote(payload: any) {
         return api.post("/polls/vote", payload);
+    },
+
+    validateDocument(docuement: string) {
+        return api.get(`polls/documents/${docuement}`);
     }
 };
