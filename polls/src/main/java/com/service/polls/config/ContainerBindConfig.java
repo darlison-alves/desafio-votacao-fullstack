@@ -1,13 +1,7 @@
 package com.service.polls.config;
 
-import com.service.polls.application.usecases.CreatePollUseCase;
-import com.service.polls.application.usecases.GetPollUseCase;
-import com.service.polls.application.usecases.ListPollUseCase;
-import com.service.polls.application.usecases.VoteUseCase;
-import com.service.polls.ports.in.ICreatePollUseCase;
-import com.service.polls.ports.in.IGetPollsUseCase;
-import com.service.polls.ports.in.IListPollsUseCase;
-import com.service.polls.ports.in.IVoteUseCase;
+import com.service.polls.application.usecases.*;
+import com.service.polls.ports.in.*;
 import com.service.polls.ports.out.IPollRepository;
 import com.service.polls.ports.out.IVoteCacheProvider;
 import org.springframework.context.annotation.Bean;
@@ -40,5 +34,10 @@ public class ContainerBindConfig {
     @Bean
     public WebClient.Builder webClientBuilder() {
         return WebClient.builder();
+    }
+
+    @Bean
+    IGetPollResultUseCase pollResultUseCase(IVoteCacheProvider cacheProvider) {
+        return new GetPollResultUseCase(cacheProvider);
     }
 }

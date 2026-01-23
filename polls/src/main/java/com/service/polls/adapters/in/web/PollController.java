@@ -2,15 +2,9 @@ package com.service.polls.adapters.in.web;
 
 import com.service.polls.adapters.out.ExternalDocumentProvider;
 import com.service.polls.adapters.out.persistence.entities.PollEntity;
-import com.service.polls.application.dto.DocumentValidatedDTO;
-import com.service.polls.application.dto.PollDTO;
-import com.service.polls.application.dto.VoteDTO;
-import com.service.polls.application.dto.VotedDTO;
+import com.service.polls.application.dto.*;
 import com.service.polls.domain.model.Poll;
-import com.service.polls.ports.in.ICreatePollUseCase;
-import com.service.polls.ports.in.IGetPollsUseCase;
-import com.service.polls.ports.in.IListPollsUseCase;
-import com.service.polls.ports.in.IVoteUseCase;
+import com.service.polls.ports.in.*;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -28,14 +22,16 @@ public class PollController {
     private final IListPollsUseCase listPollsUseCase;
     private final IVoteUseCase voteUseCase;
     private final IGetPollsUseCase getPollsUseCase;
+    private final IGetPollResultUseCase pollResultUseCase;
 
     private final ExternalDocumentProvider externalDocumentProvider;
 
-    public PollController(ICreatePollUseCase createPollUseCase, IListPollsUseCase listPollsUseCase, IVoteUseCase voteUseCase, IGetPollsUseCase getPollsUseCase, ExternalDocumentProvider externalDocumentProvider) {
+    public PollController(ICreatePollUseCase createPollUseCase, IListPollsUseCase listPollsUseCase, IVoteUseCase voteUseCase, IGetPollsUseCase getPollsUseCase, IGetPollResultUseCase pollResultUseCase, ExternalDocumentProvider externalDocumentProvider) {
         this.createPollUseCase = createPollUseCase;
         this.listPollsUseCase = listPollsUseCase;
         this.voteUseCase = voteUseCase;
         this.getPollsUseCase = getPollsUseCase;
+        this.pollResultUseCase = pollResultUseCase;
         this.externalDocumentProvider = externalDocumentProvider;
     }
 
@@ -54,6 +50,12 @@ public class PollController {
     @GetMapping("/{pollId}")
     public ResponseEntity<Poll> findById( @PathVariable("pollId") Long pollId) {
         Poll poll = getPollsUseCase.execute(pollId);
+        return ResponseEntity.ok(poll);
+    }
+
+    @GetMapping("/{pollId}/result")
+    public ResponseEntity<PollResultDTO> result(@PathVariable("pollId") Long pollId) {
+        PollResultDTO poll = pollResultUseCase.execute(pollId);
         return ResponseEntity.ok(poll);
     }
 
